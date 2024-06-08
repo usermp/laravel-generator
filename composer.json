@@ -12,6 +12,7 @@
             "email": "usermp76@gmail.com"
         }
     ],
+    "license": "MIT",
     "minimum-stability": "dev",
     "require": {
         "symfony/yaml": "7.2.x-dev",
