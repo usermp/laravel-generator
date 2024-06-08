@@ -1,6 +1,6 @@
 <?php
 
-namespace YourPackage\Generators;
+namespace Usermp\LaravelGenerator\Generators;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
