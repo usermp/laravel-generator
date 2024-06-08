@@ -1,6 +1,6 @@
 <?php
 
-namespace Usermp\LaravelGenerator\Console\Commands;
+namespace Usermp\LaravelGenerator\Commands;
 
 use Illuminate\Console\Command;
 use Usermp\LaravelGenerator\Generators\ComponentGenerator;
