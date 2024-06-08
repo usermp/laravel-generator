@@ -15,7 +15,7 @@
     "license": "MIT",
     "minimum-stability": "dev",
     "require": {
-        "symfony/yaml": "7.2.x-dev",
-        "illuminate/console": "12.x-dev"
+        "symfony/yaml": "*",
+        "illuminate/console": "*"
     }
 }
