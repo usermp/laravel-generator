@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\{{modelName}};
+
+class {{controllerName}} extends Controller
+{
+    public function index()
+    {
+        {{indexMethod}}
+    }
+
+    public function store(Request $request)
+    {
+        {{storeMethod}}
+    }
+}

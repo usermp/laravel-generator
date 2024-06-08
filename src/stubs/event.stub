@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Events;
+
+use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+
+class {{eventName}}
+{
+    use Dispatchable, InteractsWithSockets, SerializesModels;
+
+    public ${{property}};
+
+    public function __construct(${{property}})
+    {
+        $this->{{property}} = ${{property}};
+    }
+}

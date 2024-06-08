@@ -1,0 +1,20 @@
+{
+    "name": "usermp/laravel-generator",
+    "description": "asdasdasdasd qwedsadf",
+    "autoload": {
+        "psr-4": {
+            "Usermp\\LaravelGenerator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mohammad",
+            "email": "usermp76@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/yaml": "7.2.x-dev",
+        "illuminate/console": "12.x-dev"
+    }
+}
