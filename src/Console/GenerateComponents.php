@@ -3,7 +3,7 @@
 namespace Usermp\LaravelGenerator\Console\Commands;
 
 use Illuminate\Console\Command;
-use YourPackage\Generators\ComponentGenerator;
+use Usermp\LaravelGenerator\Generators\ComponentGenerator;
 
 class GenerateComponents extends Command
 {
