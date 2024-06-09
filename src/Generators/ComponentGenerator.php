@@ -26,7 +26,53 @@ class ComponentGenerator
     public function generate()
     {
         $data = Yaml::parseFile($this->yamlFile);
+
+        $this->generateModel($data['model']);
         $this->generateController($data['controller']);
+    }
+
+    protected function generateModel($modelData)
+    {
+        $modelName = $modelData['name'];
+        unset($modelData['name']);
+
+        $fillable = array_keys($modelData);
+        $casts = [];
+        $dates = [];
+        $relationships = [];
+
+        foreach ($modelData as $field => $type) {
+            if (strpos($type, 'nullable') !== false) {
+                $dates[] = $field;
+            }
+            if (strpos($type, 'id:') !== false) {
+                [$type, $relatedModel] = explode(':', $type);
+                $relationships[] = [
+                    'method' => $relatedModel,
+                    'type' => 'belongsTo',
+                    'model' => ucfirst($relatedModel)
+                ];
+            }
+            if ($type === 'timestamp' || $type === 'nullable timestamp') {
+                $casts[$field] = 'datetime';
+            }
+        }
+
+        $stub = File::get(__DIR__ . '/../stubs/model.stub');
+        $content = str_replace(
+            ['{{modelName}}', '{{fillable}}', '{{casts}}', '{{dates}}', '{{relationships}}'],
+            [
+                $modelName,
+                $this->formatArray($fillable),
+                $this->formatAssociativeArray($casts),
+                $this->formatArray($dates),
+                $this->generateRelationships($relationships)
+            ],
+            $stub
+        );
+
+        $path = app_path('Models/' . $modelName . '.php');
+        File::put($path, $content);
     }
 
     /**
@@ -113,5 +159,27 @@ class ComponentGenerator
     {
         $modelVar = strtolower($model);
         return "public function destroy($model \$$modelVar)\n    {\n        return Crud::destroy(\$$modelVar);\n    }";
+    }
+
+
+    protected function formatArray($array)
+    {
+        return implode(",\n        ", array_map(function ($item) {
+            return "'$item'";
+        }, $array));
+    }
+
+    protected function formatAssociativeArray($array)
+    {
+        return implode(",\n        ", array_map(function ($key, $value) {
+            return "'$key' => '$value'";
+        }, array_keys($array), $array));
+    }
+
+    protected function generateRelationships($relationships)
+    {
+        return implode("\n\n    ", array_map(function ($relationship) {
+            return "public function {$relationship['method']}()\n    {\n        return \$this->{$relationship['type']}({$relationship['model']}::class);\n    }";
+        }, $relationships));
     }
 }
