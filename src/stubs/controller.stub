@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Usermp\LaravelGenerator\Services\Crud;
 use App\Models\{{modelName}};
+use App\Http\Requests\Store{{modelName}}Request;
 
 class {{controllerName}} extends Controller
 {
-    
+
     {{indexMethod}}
-    
+
     {{storeMethod}}
 
     {{showMethod}}
@@ -17,5 +19,5 @@ class {{controllerName}} extends Controller
     {{updateMethod}}
 
     {{deleteMethod}}
-    
+
 }

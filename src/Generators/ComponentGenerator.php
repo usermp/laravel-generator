@@ -28,11 +28,9 @@ class ComponentGenerator
             [
                 $controllerData['name'],
                 $controllerData['model'],
-                $this->generateControllerMethod('index' , ""),
-                $this->generateControllerMethod('store' , ""),
-                $this->generateControllerMethod('show'  , ""),
-                $this->generateControllerMethod('update', ""),
-                $this->generateControllerMethod('delete', "")
+                $this->controllerIndex($controllerData['model']),
+                $this->controllerStore($controllerData['model']),
+                $this->controllerShow($controllerData['model']),
             ],
             $stub
         );
@@ -41,11 +39,31 @@ class ComponentGenerator
         File::put($path, $content);
     }
 
-
-
-    protected function generateControllerMethod($method, $content)
+    public function controllerIndex($model)
     {
-        return "public function {$method}()\n    {\n        {$content}\n    }";
+        return "public function index($model $" .strtolower($model).
+         ")\n    {\n        return Crud::index($" . strtolower($model) . "); \n    }";
+    }
+    public function controllerStore($model)
+    {
+        return "public function store(Store{$model}Request ".
+        "$" ."request, $model $" . strtolower($model) .
+        ")\n    {\n        ".
+        "$"."validated = "."$"."request->validated();\n        return Crud::store($" .
+        "validated ,$" . strtolower($model) . "); \n    }";
+    }
+    public function controllerShow($model)
+    {
+        return "public function show($model $" .strtolower($model).
+        ")\n    {\n        return Crud::show($" . strtolower($model) . "); \n    }";
+    }
+    public function controllerUpdate($model)
+    {
+        return "Response::success('success',$model::all())";
+    }
+    public function controllerDelete($model)
+    {
+        return "Response::success('success',$model::all())";
     }
 
 }
