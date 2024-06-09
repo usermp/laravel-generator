@@ -31,6 +31,8 @@ class ComponentGenerator
                 $this->controllerIndex($controllerData['model']),
                 $this->controllerStore($controllerData['model']),
                 $this->controllerShow($controllerData['model']),
+                $this->controllerUpdate($controllerData['model']),
+                $this->controllerDelete($controllerData['model']),
             ],
             $stub
         );
@@ -59,11 +61,16 @@ class ComponentGenerator
     }
     public function controllerUpdate($model)
     {
-        return "Response::success('success',$model::all())";
+        return "public function update(Update{$model}Request ".
+        "$" ."request, $model $" . strtolower($model) .
+        ")\n    {\n        ".
+        "$"."validated = "."$"."request->validated();\n        return Crud::update($" .
+        "validated ,$" . strtolower($model) . "); \n    }";
     }
     public function controllerDelete($model)
     {
-        return "Response::success('success',$model::all())";
+        return "public function delete($model $" .strtolower($model).
+        ")\n    {\n        return Crud::delete($" . strtolower($model) . "); \n    }";
     }
 
 }
