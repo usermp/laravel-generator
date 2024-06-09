@@ -10,17 +10,31 @@ class ComponentGenerator
 {
     protected $yamlFile;
 
+    /**
+     * ComponentGenerator constructor.
+     *
+     * @param string $yamlFile
+     */
     public function __construct($yamlFile)
     {
         $this->yamlFile = $yamlFile;
     }
 
+    /**
+     * Generate the necessary files from the YAML configuration.
+     */
     public function generate()
     {
         $data = Yaml::parseFile($this->yamlFile);
         $this->generateController($data['controller']);
     }
-    protected function generateController($controllerData)
+
+    /**
+     * Generate the controller file based on the stub and the provided data.
+     *
+     * @param array $controllerData
+     */
+    protected function generateController(array $controllerData)
     {
         $stub = File::get(__DIR__ . '/../stubs/controller.stub');
         $content = str_replace(
@@ -28,11 +42,11 @@ class ComponentGenerator
             [
                 $controllerData['name'],
                 $controllerData['model'],
-                $this->controllerIndex($controllerData['model']),
-                $this->controllerStore($controllerData['model']),
-                $this->controllerShow($controllerData['model']),
-                $this->controllerUpdate($controllerData['model']),
-                $this->controllerDelete($controllerData['model']),
+                $this->generateControllerIndex($controllerData['model']),
+                $this->generateControllerStore($controllerData['model']),
+                $this->generateControllerShow($controllerData['model']),
+                $this->generateControllerUpdate($controllerData['model']),
+                $this->generateControllerDelete($controllerData['model']),
             ],
             $stub
         );
@@ -41,36 +55,63 @@ class ComponentGenerator
         File::put($path, $content);
     }
 
-    public function controllerIndex($model)
+    /**
+     * Generate the index method for the controller.
+     *
+     * @param string $model
+     * @return string
+     */
+    protected function generateControllerIndex($model)
     {
-        return "public function index($model $" .strtolower($model).
-         ")\n    {\n        return Crud::index($" . strtolower($model) . "); \n    }";
-    }
-    public function controllerStore($model)
-    {
-        return "public function store(Store{$model}Request ".
-        "$" ."request, $model $" . strtolower($model) .
-        ")\n    {\n        ".
-        "$"."validated = "."$"."request->validated();\n        return Crud::store($" .
-        "validated ,$" . strtolower($model) . "); \n    }";
-    }
-    public function controllerShow($model)
-    {
-        return "public function show($model $" .strtolower($model).
-        ")\n    {\n        return Crud::show($" . strtolower($model) . "); \n    }";
-    }
-    public function controllerUpdate($model)
-    {
-        return "public function update(Update{$model}Request ".
-        "$" ."request, $model $" . strtolower($model) .
-        ")\n    {\n        ".
-        "$"."validated = "."$"."request->validated();\n        return Crud::update($" .
-        "validated ,$" . strtolower($model) . "); \n    }";
-    }
-    public function controllerDelete($model)
-    {
-        return "public function delete($model $" .strtolower($model).
-        ")\n    {\n        return Crud::delete($" . strtolower($model) . "); \n    }";
+        $modelVar = strtolower($model);
+        return "public function index($model \$$modelVar)\n    {\n        return Crud::index(\$$modelVar);\n    }";
     }
 
+    /**
+     * Generate the store method for the controller.
+     *
+     * @param string $model
+     * @return string
+     */
+    protected function generateControllerStore($model)
+    {
+        $modelVar = strtolower($model);
+        return "public function store(Store{$model}Request \$request, $model \$$modelVar)\n    {\n        \$validated = \$request->validated();\n        return Crud::store(\$validated, \$$modelVar);\n    }";
+    }
+
+    /**
+     * Generate the show method for the controller.
+     *
+     * @param string $model
+     * @return string
+     */
+    protected function generateControllerShow($model)
+    {
+        $modelVar = strtolower($model);
+        return "public function show($model \$$modelVar)\n    {\n        return Crud::show(\$$modelVar);\n    }";
+    }
+
+    /**
+     * Generate the update method for the controller.
+     *
+     * @param string $model
+     * @return string
+     */
+    protected function generateControllerUpdate($model)
+    {
+        $modelVar = strtolower($model);
+        return "public function update(Update{$model}Request \$request, $model \$$modelVar)\n    {\n        \$validated = \$request->validated();\n        return Crud::update(\$validated, \$$modelVar);\n    }";
+    }
+
+    /**
+     * Generate the delete method for the controller.
+     *
+     * @param string $model
+     * @return string
+     */
+    protected function generateControllerDelete($model)
+    {
+        $modelVar = strtolower($model);
+        return "public function destroy($model \$$modelVar)\n    {\n        return Crud::destroy(\$$modelVar);\n    }";
+    }
 }
