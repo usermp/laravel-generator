@@ -7,13 +7,15 @@ use App\Models\{{modelName}};
 
 class {{controllerName}} extends Controller
 {
-    public function index()
-    {
-        {{indexMethod}}
-    }
+    
+    {{indexMethod}}
+    
+    {{storeMethod}}
 
-    public function store(Request $request)
-    {
-        {{storeMethod}}
-    }
+    {{showMethod}}
+
+    {{updateMethod}}
+
+    {{deleteMethod}}
+    
 }
