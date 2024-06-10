@@ -16,6 +16,7 @@ class ModelGenerator
         unset($modelData['traits']);
 
         $traitsList = '';
+        $useTraits = []; 
 
         foreach ($traits as $trait) {
             $traitsList .= ", $trait";
@@ -51,10 +52,10 @@ class ModelGenerator
                 $modelName,
                 implode("\n", $useTraits),
                 $traitsList,
-                formatArray($fillable),
-                formatAssociativeArray($casts),
-                formatArray($dates),
-                generateRelationships($relationships)
+                GeneratorUtils::formatArray($fillable),
+                GeneratorUtils::formatAssociativeArray($casts),
+                GeneratorUtils::formatArray($dates),
+                GeneratorUtils::generateRelationships($relationships)
             ],
             $stub
         );
