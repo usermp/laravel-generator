@@ -15,15 +15,7 @@ class ModelGenerator
         $traits = $modelData['traits'] ?? [];
         unset($modelData['traits']);
 
-        $useTraits = [];
-        $useTraits[] = 'use Illuminate\Database\Eloquent\Factories\HasFactory;';
-        $traitsList = 'HasFactory';
-
-        if (isset($modelData['softDelete'])) {
-            $traitsList .= ', SoftDeletes';
-            $useTraits[] = 'use Illuminate\Database\Eloquent\SoftDeletes;';
-            unset($modelData['softDelete']);
-        }
+        $traitsList = '';
 
         foreach ($traits as $trait) {
             $traitsList .= ", $trait";
