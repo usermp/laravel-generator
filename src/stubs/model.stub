@@ -16,16 +16,7 @@ class {{modelName}} extends Model
      * @var array
      */
     protected $fillable = [
-        
-    ];
-
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        
+        {{fillable}}
     ];
 
     /**
@@ -34,6 +25,18 @@ class {{modelName}} extends Model
      * @var array
      */
     protected $casts = [
-        
+        {{casts}}
     ];
+
+    /**
+     * The dates that should be mutated to instances of Carbon.
+     *
+     * @var array
+     */
+    protected $dates =[
+        {{dates}}
+    ];
+
+
+    {{relationships}}
 }
