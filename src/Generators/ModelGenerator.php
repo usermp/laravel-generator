@@ -19,7 +19,9 @@ class ModelGenerator
         $useTraits = []; 
 
         foreach ($traits as $trait) {
-            $traitsList .= ", $trait";
+            $name = explode("\\",$trait);
+            $name = end($name);
+            $traitsList .= ", $name";
             $useTraits[] = "use $trait;";
         }
 
