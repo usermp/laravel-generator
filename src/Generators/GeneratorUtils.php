@@ -34,7 +34,7 @@ class GeneratorUtils
     public static function generateControllerStore($model)
     {
         $modelVar = strtolower($model);
-        return "public function store(Store{$model}Request \$request)\n    {\n        \$validated = \$request->validated();\n        return Crud::store(\$validated, new $model);\n    }";
+        return "public function store(Store{$model}Request \$request, $model \$$modelVar)\n    {\n        \$validated = \$request->validated();\n        return Crud::store(\$validated, \$$modelVar);\n    }";
     }
 
     public static function generateControllerShow($model)

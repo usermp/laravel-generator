@@ -15,11 +15,11 @@ class ControllerGenerator
             [
                 $controllerData['name'],
                 $controllerData['model'],
-                generateControllerIndex($controllerData['model']),
-                generateControllerStore($controllerData['model']),
-                generateControllerShow($controllerData['model']),
-                generateControllerUpdate($controllerData['model']),
-                generateControllerDelete($controllerData['model']),
+                GeneratorUtils::generateControllerIndex($controllerData['model']),
+                GeneratorUtils::generateControllerStore($controllerData['model']),
+                GeneratorUtils::generateControllerShow($controllerData['model']),
+                GeneratorUtils::generateControllerUpdate($controllerData['model']),
+                GeneratorUtils::generateControllerDelete($controllerData['model']),
             ],
             $stub
         );
