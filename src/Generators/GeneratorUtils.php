@@ -28,7 +28,7 @@ class GeneratorUtils
     public static function generateControllerIndex($model)
     {
         $modelVar = strtolower($model);
-        return "public function index()\n    {\n        return Crud::index(new $model);\n    }";
+        return "public function index($model \$$modelVar)\n    {\n        return Crud::index(\$$modelVar);\n    }";
     }
 
     public static function generateControllerStore($model)
