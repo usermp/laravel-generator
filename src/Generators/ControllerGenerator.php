@@ -16,7 +16,7 @@ class ControllerGenerator
 
         $replacements = [
             '{{controllerName}}' => $controllerData['name'],
-            '{{modelName}}' => $controllerData['model'],
+            '{{modelName}}' => $controllerData['name'],
             '{{indexMethod}}' => GeneratorUtils::generateControllerIndex($controllerData['name']),
             '{{storeMethod}}' => GeneratorUtils::generateControllerStore($controllerData['name']),
             '{{showMethod}}' => GeneratorUtils::generateControllerShow($controllerData['name']),
