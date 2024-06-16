@@ -15,7 +15,7 @@ class ControllerGenerator
         $stub = File::get(__DIR__ . '/../stubs/controller.stub');
 
         $replacements = [
-            '{{controllerName}}' => $controllerData['name'],
+            '{{controllerName}}' => $controllerData['name'] . "Controller",
             '{{modelName}}' => $controllerData['name'],
             '{{indexMethod}}' => GeneratorUtils::generateControllerIndex($controllerData['name']),
             '{{storeMethod}}' => GeneratorUtils::generateControllerStore($controllerData['name']),
@@ -27,6 +27,6 @@ class ControllerGenerator
         $content = str_replace(array_keys($replacements), array_values($replacements), $stub);
 
         $path = app_path('Http/Controllers/' . $controllerData['name'] . 'Controller.php');
-        File::put($path, $content);
+        File::put($path, $content); 
     }
 }
