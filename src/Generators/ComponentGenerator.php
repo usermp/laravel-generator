@@ -24,13 +24,16 @@ class ComponentGenerator
     public function generate()
     {
         $data = Yaml::parseFile($this->yamlFile);
+
+        if( ! $data['service'] ) return null;
+
         $modelGenerator = new ModelGenerator();
-        $modelGenerator->generateModel($data['service'] ?? []);
+        $modelGenerator->generateModel($data['service']);
 
         $controllerGenerator = new ControllerGenerator();
-        $controllerGenerator->generateController($data['service'] ?? []);
+        $controllerGenerator->generateController($data['service']);
 
         $controllerGenerator = new RequestGenerator();
-        $controllerGenerator->generatorRequests($data['service'] ?? []);
+        $controllerGenerator->generatorRequests($data['service']);
     }
 }
