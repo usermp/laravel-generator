@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Usermp\LaravelGenerator\Services\Crud;
 use App\Models\{{modelName}};
 use App\Http\Requests\Store{{modelName}}Request;
+use App\Http\Requests\Update{{modelName}}Request;
 
 class {{controllerName}} extends Controller
 {

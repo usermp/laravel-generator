@@ -26,7 +26,7 @@ class ControllerGenerator
 
         $content = str_replace(array_keys($replacements), array_values($replacements), $stub);
 
-        $path = app_path('Http/Controllers/' . $controllerData['name'] . '.php');
+        $path = app_path('Http/Controllers/' . $controllerData['name'] . 'Controller.php');
         File::put($path, $content);
     }
 }
