@@ -14,7 +14,7 @@ class {{requestName}} extends FormRequest
     public function rules()
     {
         return [
-            {{rules}}
+{{rules}}
         ];
     }
 }
