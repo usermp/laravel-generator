@@ -6,23 +6,25 @@ use Illuminate\Support\Facades\File;
 
 class ControllerGenerator
 {
-    public function generateController(array $controllerData)
+    public function generateController(array $controllerData): void
     {
-        if (empty($controllerData)) return;
+        if (empty($controllerData)) {
+            return;
+        }
+
         $stub = File::get(__DIR__ . '/../stubs/controller.stub');
-        $content = str_replace(
-            ['{{controllerName}}', '{{modelName}}', '{{indexMethod}}', '{{storeMethod}}', '{{showMethod}}', '{{updateMethod}}', '{{deleteMethod}}'],
-            [
-                $controllerData['name'],
-                $controllerData['model'],
-                GeneratorUtils::generateControllerIndex($controllerData['model']),
-                GeneratorUtils::generateControllerStore($controllerData['model']),
-                GeneratorUtils::generateControllerShow($controllerData['model']),
-                GeneratorUtils::generateControllerUpdate($controllerData['model']),
-                GeneratorUtils::generateControllerDelete($controllerData['model']),
-            ],
-            $stub
-        );
+
+        $replacements = [
+            '{{controllerName}}' => $controllerData['name'],
+            '{{modelName}}' => $controllerData['model'],
+            '{{indexMethod}}' => GeneratorUtils::generateControllerIndex($controllerData['model']),
+            '{{storeMethod}}' => GeneratorUtils::generateControllerStore($controllerData['model']),
+            '{{showMethod}}' => GeneratorUtils::generateControllerShow($controllerData['model']),
+            '{{updateMethod}}' => GeneratorUtils::generateControllerUpdate($controllerData['model']),
+            '{{deleteMethod}}' => GeneratorUtils::generateControllerDelete($controllerData['model']),
+        ];
+
+        $content = str_replace(array_keys($replacements), array_values($replacements), $stub);
 
         $path = app_path('Http/Controllers/' . $controllerData['name'] . '.php');
         File::put($path, $content);

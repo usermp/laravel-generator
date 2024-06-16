@@ -3,20 +3,17 @@
 namespace Usermp\LaravelGenerator\Generators;
 
 use Illuminate\Support\Facades\File;
+use Usermp\LaravelGenerator\Generators\GeneratorUtils;
 
 class ModelGenerator
 {
     public function generateModel($modelData)
     {
         if (empty($modelData)) return;
-        $modelName = $modelData['modelName'];
-        unset($modelData['modelName']);
-
+        $modelName = $modelData['name'];
         $traits = $modelData['traits'] ?? [];
-        unset($modelData['traits']);
-
         $traitsList = '';
-        $useTraits = []; 
+        $useTraits = [];
 
         foreach ($traits as $trait) {
             $name = explode("\\",$trait);
@@ -25,27 +22,30 @@ class ModelGenerator
             $useTraits[] = "use $trait;";
         }
 
-        $fillable = array_keys($modelData);
+        $fillable = array_keys($modelData['fields']);
         $casts = [];
         $dates = [];
         $relationships = [];
 
-        foreach ($modelData as $field => $type) {
-            if (strpos($type, 'nullable') !== false) {
+        foreach ($modelData['fields'] as $field => $type) {
+            if (in_array("timestamp", $type) || in_array("datetime", $type)) {
                 $dates[] = $field;
             }
-            if (strpos($type, 'id:') !== false) {
-                [$type, $relatedModel] = explode(':', $type);
-                $relationships[] = [
-                    'method' => $relatedModel,
-                    'type' => 'belongsTo',
-                    'model' => ucfirst($relatedModel)
-                ];
-            }
-            if ($type === 'timestamp' || $type === 'nullable timestamp') {
-                $casts[$field] = 'datetime';
+
+            foreach($type as $item)
+            {
+                if(str_contains($item,"#"))
+                {
+                    $relationshipType = $this->getRelationshipType($item);
+                    $relationships[] = [
+                        'method' => explode("#",$item)[0],
+                        'type'   => $relationshipType,
+                        'model'  => ucfirst(explode("#",$item)[0])
+                    ];
+                }
             }
         }
+
 
         $stub = File::get(__DIR__ . '/../stubs/model.stub');
         $content = str_replace(
@@ -57,12 +57,48 @@ class ModelGenerator
                 GeneratorUtils::formatArray($fillable),
                 GeneratorUtils::formatAssociativeArray($casts),
                 GeneratorUtils::formatArray($dates),
-                GeneratorUtils::generateRelationships($relationships)
+                $this->generateRelationships($relationships)
             ],
             $stub
         );
 
         $path = app_path('Models/' . $modelName . '.php');
         File::put($path, $content);
+    }
+
+    private function getRelationshipType($type)
+    {
+        $hashCount = substr_count($type, '#');
+        switch ($hashCount) {
+            case 1:
+                return 'belongsTo';
+            case 2:
+                return 'hasOne';
+            case 3:
+                return 'hasMany';
+            case 4:
+                return 'belongsToMany';
+            default:
+                return 'belongsTo';
+        }
+    }
+
+    private function generateRelationships($relationships)
+    {
+        $relationshipMethods = '';
+
+        foreach ($relationships as $relationship) {
+            $method = $relationship['method'];
+            $type = $relationship['type'];
+            $model = $relationship['model'];
+
+            $relationshipMethods .= "\n";
+            $relationshipMethods .= "    public function $method()\n";
+            $relationshipMethods .= "    {\n";
+            $relationshipMethods .= "        return \$this->$type($model::class);\n";
+            $relationshipMethods .= "    }\n";
+        }
+
+        return $relationshipMethods;
     }
 }
