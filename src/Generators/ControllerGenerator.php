@@ -17,11 +17,11 @@ class ControllerGenerator
         $replacements = [
             '{{controllerName}}' => $controllerData['name'],
             '{{modelName}}' => $controllerData['model'],
-            '{{indexMethod}}' => GeneratorUtils::generateControllerIndex($controllerData['model']),
-            '{{storeMethod}}' => GeneratorUtils::generateControllerStore($controllerData['model']),
-            '{{showMethod}}' => GeneratorUtils::generateControllerShow($controllerData['model']),
-            '{{updateMethod}}' => GeneratorUtils::generateControllerUpdate($controllerData['model']),
-            '{{deleteMethod}}' => GeneratorUtils::generateControllerDelete($controllerData['model']),
+            '{{indexMethod}}' => GeneratorUtils::generateControllerIndex($controllerData['name']),
+            '{{storeMethod}}' => GeneratorUtils::generateControllerStore($controllerData['name']),
+            '{{showMethod}}' => GeneratorUtils::generateControllerShow($controllerData['name']),
+            '{{updateMethod}}' => GeneratorUtils::generateControllerUpdate($controllerData['name']),
+            '{{deleteMethod}}' => GeneratorUtils::generateControllerDelete($controllerData['name']),
         ];
 
         $content = str_replace(array_keys($replacements), array_values($replacements), $stub);
