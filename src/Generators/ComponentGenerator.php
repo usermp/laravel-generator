@@ -34,6 +34,6 @@ class ComponentGenerator
         $controllerGenerator->generateController($data['service']);
 
         $controllerGenerator = new RequestGenerator();
-        $controllerGenerator->generatorRequests($data['service']);
+        $controllerGenerator->generateRequests($data['service']);
     }
 }
