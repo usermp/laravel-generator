@@ -3,7 +3,7 @@
 namespace Usermp\LaravelGenerator\Commands;
 
 use Illuminate\Console\Command;
-use Usermp\LaravelGenerator\Generators\ComponentGenerator;
+use Usermp\LaravelGenerator\Generators\CrudGenerator;
 
 class GenerateComponents extends Command
 {
@@ -13,7 +13,7 @@ class GenerateComponents extends Command
     public function handle()
     {
         $yamlFile = $this->argument('yamlFile');
-        $generator = new ComponentGenerator($yamlFile);
+        $generator = new CrudGenerator($yamlFile);
         $generator->generate();
         $this->info('CRUD generated successfully.');
     }
