@@ -35,5 +35,8 @@ class CrudGenerator
 
         $controllerGenerator = new RequestGenerator();
         $controllerGenerator->generateRequests($data['service']);
+
+        $migrationGenerator = new MigrationGenerator();
+        $migrationGenerator->generateMigration($data['service']);
     }
 }
