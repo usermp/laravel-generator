@@ -8,7 +8,7 @@ class GeneratorUtils
     {
         return implode(",\n        ", array_map(function ($item) {
             return "'$item'";
-        }, $array));
+        }, $array)) . ",";
     }
 
     public static function formatAssociativeArray($array)
