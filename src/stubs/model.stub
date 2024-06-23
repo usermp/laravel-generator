@@ -35,6 +35,9 @@ class {{modelName}} extends Model
      */
     protected $dates =[
         {{dates}}
+        "created_at",
+        "updated_at",
+        "deleted_at"
     ];
 
 

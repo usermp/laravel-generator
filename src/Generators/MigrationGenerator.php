@@ -3,6 +3,7 @@
 namespace Usermp\LaravelGenerator\Generators;
 
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
 
 class MigrationGenerator
 {
@@ -10,6 +11,9 @@ class MigrationGenerator
     {
         $name = $service['name'];
         $fields = $service['fields'];
+
+        // Pluralize the table name
+        $tableName = Str::plural(strtolower($name));
 
         $fieldLines = [];
         foreach ($fields as $field => $rules) {
@@ -25,7 +29,7 @@ class MigrationGenerator
         }
 
         $replacements = [
-            '{{tableName}}' => strtolower($name),
+            '{{tableName}}' => $tableName,
             '{{fields}}' => implode("\n            ", $fieldLines),
         ];
 
@@ -34,7 +38,7 @@ class MigrationGenerator
 
         $migrationContent = str_replace(array_keys($replacements), array_values($replacements), $stub);
 
-        $migrationFileName = date('Y_m_d_His') . '_create_' . strtolower($name) . '_table.php';
+        $migrationFileName = date('Y_m_d_His') . '_create_' . $tableName . '_table.php';
         $migrationPath = database_path('migrations/' . $migrationFileName);
 
         file_put_contents($migrationPath, $migrationContent);
