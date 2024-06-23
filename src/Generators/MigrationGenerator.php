@@ -32,7 +32,7 @@ class MigrationGenerator
             } elseif (in_array('integer', $rules)) {
                 if(str_contains($field,"_id")){
                     $fieldLines[] = "\$table->unsignedBigInteger('$field');";
-                    $fieldLines[] = "\$table->foreign('$field')->references('id')->on('" . Str::plural($this->relationTable($rules)) . "')->onDelete('cascade');";
+                    $fieldLines[] = "\$table->foreign('$field')->references('id')->on('" . strtolower(Str::plural($this->relationTable($rules))) . "')->onDelete('cascade');";
                 }else{
                     $fieldLines[] = "\$table->integer('$field')" . (in_array("nullable", $rules) ? "->nullable()" : "") . ";";
                 }
