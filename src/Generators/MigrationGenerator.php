@@ -19,11 +19,11 @@ class MigrationGenerator
         foreach ($fields as $field => $rules) {
             if (in_array('string', $rules)) {
 
-                $fieldLines[] = "\$table->string('$field')" . in_array("nullable", $rules) ? "->nullable()" : "" . ";";
+                $fieldLines[] = "\$table->string('$field')" . (in_array("nullable", $rules) ? "->nullable()" : "") . ";";
 
             } elseif (in_array('text', $rules)) {
 
-                $fieldLines[] = "\$table->text('$field')" . in_array("nullable", $rules) ? "->nullable()" : "" . ";";
+                $fieldLines[] = "\$table->text('$field')" . (in_array("nullable", $rules) ? "->nullable()" : "") . ";";
 
             } elseif (in_array('timestamp', $rules)) {
 
@@ -31,7 +31,7 @@ class MigrationGenerator
 
             } elseif (in_array('integer', $rules)) {
 
-                $fieldLines[] = "\$table->integer('$field')" . in_array("nullable", $rules) ? "->nullable()" : "" . ";";
+                $fieldLines[] = "\$table->integer('$field')" . (in_array("nullable", $rules) ? "->nullable()" : "") . ";";
             }
         }
 

@@ -34,7 +34,7 @@ class {{modelName}} extends Model
      * @var array
      */
     protected $dates =[
-        {{dates}}
+        {{dates}},
         "created_at",
         "updated_at",
         "deleted_at"
