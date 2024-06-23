@@ -12,7 +12,7 @@ class RouteGenerator
         $name = $service['name'];
         $route = Str::plural(strtolower($name));
     
-        $routeDefinition = "\n\nRoute::apiResource('{$route}', '{$name}Controller');";
+        $routeDefinition = "\n\nRoute::apiResource('{$route}', '\App\Http\Controllers\{$name}Controller');";
         // Define the path to the routes file
         $path = base_path('routes/api.php');
 
