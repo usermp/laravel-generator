@@ -38,5 +38,8 @@ class CrudGenerator
 
         $migrationGenerator = new MigrationGenerator();
         $migrationGenerator->generateMigration($data['service']);
+
+        $migrationGenerator = new RouteGenerator();
+        $migrationGenerator->generateRoute($data['service']);
     }
 }
