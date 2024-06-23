@@ -30,8 +30,12 @@ class MigrationGenerator
                 $fieldLines[] = "\$table->timestamp('$field')->nullable();";
 
             } elseif (in_array('integer', $rules)) {
-
-                $fieldLines[] = "\$table->integer('$field')" . (in_array("nullable", $rules) ? "->nullable()" : "") . ";";
+                if(str_contains($field,"_id")){
+                    $fieldLines[] = "\$table->unsignedBigInteger('$field');";
+                    $fieldLines[] = "\$table->foreign('$field')->references('id')->on('" . Str::plural($this->relationTable($rules)) . "')->onDelete('cascade');";
+                }else{
+                    $fieldLines[] = "\$table->integer('$field')" . (in_array("nullable", $rules) ? "->nullable()" : "") . ";";
+                }
             }
         }
 
@@ -49,5 +53,15 @@ class MigrationGenerator
         $migrationPath = database_path('migrations/' . $migrationFileName);
 
         file_put_contents($migrationPath, $migrationContent);
+    }
+    private function relationTable($rules)
+    {
+        foreach($rules as $rule)
+        {
+            if(str_contains($rule,"#"))
+            {
+                return explode("#",$rule)[0];
+            }
+        }
     }
 }
