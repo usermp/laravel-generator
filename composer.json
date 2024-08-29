@@ -16,6 +16,9 @@
     "minimum-stability": "dev",
     "require": {
         "symfony/yaml": "*",
-        "illuminate/console": "*"
+        "illuminate/console": "*",
+        "usermp/laravel-filter": "dev-master",
+        "illuminate/support": "*",
+        "sentry/sentry-laravel": "*"        
     }
 }

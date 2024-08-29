@@ -8,10 +8,15 @@ use Illuminate\Http\JsonResponse;
 
 class Crud
 {
-    public static function index($model, $customSetting = null): JsonResponse
+    public static function index($model, $customSetting = false): JsonResponse
     {
-        $resource = func_num_args() > 1 ? $customSetting : $model::all();
-        return Response::success(Constants::SUCCESS,$resource);
+        try {
+            $resource = $customSetting ? $model : (request()->has("page") ? $model->filter()->orderBy('id', 'DESC')->paginate(15) : $model->filter()->orderBy('id', 'DESC')->get());
+            return Response::success(Constants::SUCCESS,$resource);
+        } catch (\Exception $exception) {
+            \Sentry\captureException($exception);
+            return Response::error(env("APP_DEBUG") ? $exception->getMessage() : Constants::ERROR);
+        }
     }
 
     public static function store(array $fields, $model): JsonResponse
