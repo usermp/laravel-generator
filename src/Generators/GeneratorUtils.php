@@ -6,6 +6,7 @@ class GeneratorUtils
 {
     public static function formatArray($array)
     {
+        if(empty($array)) return "";
         return implode(",\n        ", array_map(function ($item) {
             return "'$item'";
         }, $array)) . ",";
