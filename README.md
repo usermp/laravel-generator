@@ -16,7 +16,6 @@ Add the `LaravelGeneratorServiceProvider` class to the providers array in your
     
 ```php
 'providers' => [
-	// Other Service Providers
 	Usermp\LaravelGenerator\LaravelGeneratorServiceProvider::class,
 ],
 ```
